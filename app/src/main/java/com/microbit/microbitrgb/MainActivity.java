@@ -1,5 +1,6 @@
 package com.microbit.microbitrgb;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
@@ -8,13 +9,15 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView lblRed, lblGreen, lblBlue, lblStatus, lblColor;
-    Button btnConnect;
-    SeekBar sRed, sGreen, sBlue;
+    private TextView lblRed, lblGreen, lblBlue, lblStatus, lblColor;
+    private Button btnConnect;
+    private SeekBar sRed, sGreen, sBlue;
 
+    private bluetooth mBluetooth;
     private SharedPreferences myConfig;
 
     @Override
@@ -89,8 +92,24 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        mBluetooth = new bluetooth(this, lblStatus);
+        mBluetooth.on();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mBluetooth.off();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        Toast.makeText(this.getApplicationContext(), "Bluetooth uključen", Toast.LENGTH_LONG).show();
+
+    }
 
     private void ShowColor() {
         int red     = sRed.getProgress();
