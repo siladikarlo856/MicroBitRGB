@@ -1,12 +1,18 @@
 package com.microbit.microbitrgb;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,13 +26,15 @@ public class MainActivity extends AppCompatActivity {
     private bluetooth mBluetooth;
     private SharedPreferences myConfig;
 
+    public PopupWindow mPopupWindow;
+    public LinearLayout mainLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //TODO: preferences();
-        myConfig = PreferenceManager.getDefaultSharedPreferences(this);
+        final MainActivity mainActivity = this;
 
         lblRed = (TextView) findViewById(R.id.lRed);
         lblGreen = (TextView) findViewById(R.id.lGreen);
@@ -38,6 +46,18 @@ public class MainActivity extends AppCompatActivity {
         sRed    = (SeekBar)  findViewById(R.id.pRed);
         sGreen  = (SeekBar)  findViewById(R.id.pGreen);
         sBlue   = (SeekBar)  findViewById(R.id.pBlue);
+
+        mBluetooth = new bluetooth(this, lblStatus);
+        mBluetooth.on();
+
+        btnConnect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mBluetooth.list();
+
+
+            }
+        });
 
         sRed.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -93,9 +113,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mBluetooth = new bluetooth(this, lblStatus);
-        mBluetooth.on();
+
     }
+
+
+
 
     @Override
     protected void onDestroy() {
