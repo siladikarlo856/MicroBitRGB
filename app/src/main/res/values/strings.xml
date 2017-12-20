@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">MicroBit RGB</string>
+
+    <string name="btnConnect">Spoji MicroBit</string>
+    <string name="btnDisconnect">Odspoji MicroBit</string>
+
+    <string name="lblRed">Crvena</string>
+    <string name="lblGreen">Zelena</string>
+    <string name="lblBlue">Plava</string>
+
+
+    <string name="lblBtNotCfg">Bluetooth nije postavljen</string>
+
+
+</resources>
